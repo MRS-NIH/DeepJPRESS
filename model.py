@@ -70,7 +70,7 @@ def deepJPRESS(dims, echoes=32, points=2048, dilation_depth=8,
           x = L.LayerNormalization(axis=-1)(x)
           x = L.Activation('relu')(x)    
           x = tf.reshape(x, (-1, dims))
-          x = L.RepeatVector(2048)(x) 
+          x = L.RepeatVector(points)(x) 
           x = tf.concat([wavenet_out, x],-1)
 
           #encoder block2 
@@ -123,7 +123,6 @@ def deepJPRESS(dims, echoes=32, points=2048, dilation_depth=8,
           x = tf.reshape(x,(-1,echoes, points, dims))
           target_total_signal = L.Dense(2, name='target_total_signal')(x)
           target_individual_signals = L.Dense(NUM_TARGET_FIDS*2, name='target_individual_signals')(x)
-          x = tf.reduce_mean(x, axis=1)
   
           model = tf.keras.Model(inputs=input, outputs= [target_total_signal, target_individual_signals, frequency, phase, concentrations])
 

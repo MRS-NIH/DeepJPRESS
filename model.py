@@ -74,7 +74,7 @@ def deepJPRESS(dims, echoes=32, points=2048, dilation_depth=8,
           x = tf.concat([wavenet_out, x],-1)
 
           #encoder block2 
-          x = wavenet(x, dims, 8)
+          x = wavenet(x, dims, dilation_depth)
           x = L.LayerNormalization(axis=-1)(x)
           wavenet_out = L.Activation('relu')(x)
           to_decoder2 = tf.stop_gradient(wavenet_out)
